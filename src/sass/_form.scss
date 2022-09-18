@@ -1,0 +1,45 @@
+form {
+  background: rgb(36, 36, 152);
+  display: flex;
+  height: 60px;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+form > * {
+  height: 60%;
+  border: none;
+}
+
+form input {
+  border-radius: 7px 0 0 7px;
+}
+
+form input:focus {
+  border: 1px solid black;
+}
+
+form button {
+  border-radius: 0 7px 7px 0;
+  width: 40px;
+
+  cursor: pointer;
+  position: relative;
+}
+
+form button:after {
+  content: '';
+  display: block;
+  width: 30%;
+  height: 30%;
+
+  background-image: url('../images/search.png');
+  background-repeat: no-repeat;
+  background-size: 100%;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
