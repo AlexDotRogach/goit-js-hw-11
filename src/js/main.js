@@ -1,13 +1,10 @@
 var throttle = require('lodash.throttle');
-import Notiflix from 'notiflix';
 import renderElements from './renderElements';
 
 function main() {
   const refs = {
-    gallery: document.querySelector('.gallery'),
     input: document.querySelector('[name=searchQuery]'),
     form: document.querySelector('form'),
-    body: document.querySelector('body'),
   };
 
   const throtUploadElements = throttle(uploadElements, 500);

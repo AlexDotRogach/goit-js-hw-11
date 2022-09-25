@@ -8,7 +8,7 @@ async function renderElements(e, page, type) {
   const totalPages = Math.round(totalHits / dataArr.length);
 
   if (dataArr.length !== 0) {
-    const parent = refs.gallery;
+    const parent = document.querySelector('.gallery');
 
     if (type === 'start') {
       Notiflix.Notify.info(`Hooray! We found ${totalHits} images.`);
