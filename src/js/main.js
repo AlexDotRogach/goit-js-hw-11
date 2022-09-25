@@ -1,26 +1,44 @@
-var debounce = require('lodash.debounce');
-
-import fetchData from './fetch';
-import createUrl from './createUrl';
+var throttle = require('lodash.throttle');
+import Notiflix from 'notiflix';
+import renderElements from './renderElements';
 
 function main() {
   refs = {
     gallery: document.querySelector('.gallery'),
     input: document.querySelector('[name=searchQuery]'),
+    form: document.querySelector('form'),
+    body: document.querySelector('body'),
   };
 
-  refs.input.addEventListener(
-    'input',
-    debounce(async e => {
-      const elementsArr = await fetchData(createUrl(e));
+  const throtUploadElements = throttle(uploadElements, 500);
+  const clientHeight = window.screen.height;
+  let page = 1,
+    textInput = '',
+    state;
 
-      if (elementsArr) {
-        const parent = refs.gallery;
-        parent.innerHTML = '';
-        parent.append(...elementsArr);
-      }
-    }, 1000)
-  );
+  refs.input.addEventListener('input', e => (textInput = e.target.value));
+  refs.form.addEventListener('submit', startSearch);
+
+  async function uploadElements() {
+    let { height } = document.documentElement.getBoundingClientRect();
+    height -= clientHeight;
+
+    if (document.documentElement.scrollTop > height) {
+      state = await renderElements(textInput, (page += 1), 'upload');
+
+      if (state) document.removeEventListener('scroll', throtUploadElements);
+    }
+  }
+
+  function startSearch(e) {
+    e.preventDefault();
+
+    if (textInput) {
+      page = 1;
+      document.addEventListener('scroll', throtUploadElements);
+      renderElements(textInput, page, 'start');
+    }
+  }
 }
 
 export default main;
